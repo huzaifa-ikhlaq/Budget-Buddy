@@ -16,7 +16,8 @@ export default function MainPage() {
     const [transferFrom, setTransferFrom] = useState('');
     const [transferTo, setTransferTo] = useState('');
     const [transferAmount, setTransferAmount] = useState('');
-    // ----------Balance------  
+
+    // ====Balance====
     const [saving, setSaving] = useState(() => {
         const saved = localStorage.getItem('saving');
         return saved ? JSON.parse(saved) : 0;
@@ -32,9 +33,10 @@ export default function MainPage() {
     const [expenseDateFrom, setExpenseDateFrom] = useState(today)
     const [expenseDateTo, setExpenseDateTo] = useState(today)
 
-    // filterExpensebyDate
+    // ====filterExpensebyDate====
     const filteredExpense = expense.filter((item) => item.Date >= expenseDateFrom && item.Date <= expenseDateTo)
 
+    // Chart 1: Expenses (categories vs amounts)
     const chartData1 = {
         labels: ["Cash", "Card", "Saving"], // still needed for tooltips
         datasets: [
@@ -48,7 +50,7 @@ export default function MainPage() {
     const options = {
         plugins: {
             legend: {
-                display: false, // 🚫 hide the legend completely
+                display: false, //  hide the legend completely
             },
             tooltip: {
                 callbacks: {
@@ -87,24 +89,27 @@ export default function MainPage() {
     };
 
     // calculate from income
-    useEffect(() => {
-        const cashTotal = income
-            .filter((item) => item.IncomeType === "Cash")
-            .reduce((acc, curr) => acc + Number(curr.Amount), 0);
+    // useEffect(() => {
+    //     const cashTotal = income
+    //         .filter((item) => item.IncomeType === "Cash")
+    //         .reduce((acc, curr) => acc + Number(curr.Amount), 0);
 
-        const cardTotal = income
-            .filter((item) => item.IncomeType === "Card")
-            .reduce((acc, curr) => acc + Number(curr.Amount), 0);
+    //     const cardTotal = income
+    //         .filter((item) => item.IncomeType === "Card")
+    //         .reduce((acc, curr) => acc + Number(curr.Amount), 0);
 
-        setCash(cashTotal);
-        setCard(cardTotal);
-    }, [income]);
+    //     setCash(cashTotal);
+    //     setCard(cardTotal);
+    // }, [income]);
+
+
+    console.log(cash, card, saving);
 
     // save to localStorage whenever cash or card changes
     useEffect(() => {
-        localStorage.setItem('cash', JSON.stringify(cash));
-        localStorage.setItem('card', JSON.stringify(card));
-        localStorage.setItem('saving', JSON.stringify(saving));
+        localStorage.setItem("cash", JSON.stringify(cash));
+        localStorage.setItem("card", JSON.stringify(card));
+        localStorage.setItem("saving", JSON.stringify(saving));
     }, [cash, card, saving]);
 
 
